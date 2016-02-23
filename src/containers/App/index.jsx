@@ -20,6 +20,7 @@ class App extends Component {
   };
   state = {
     lightBoxShow: false,
+    data: this.props.data,
     filtered: this.props.data,
     active: 0,
   };
@@ -38,6 +39,15 @@ class App extends Component {
   }
   _handleClick() {
     this.setState({ lightBoxShow: !this.state.lightBoxShow });
+  }
+  _saveTitle(title) {
+    console.log(title)
+    this.setState({
+      data: this.state.data.map((d, idx)=> {
+        if (idx === this.state.active) d.title = title;
+        return d;
+      })
+    });
   }
   render () {
     return (
@@ -58,8 +68,9 @@ class App extends Component {
             handleSelect={(value) => this._handleSelect(value)}
           />
           <Right
-            data={this.props.data[this.state.active]}
+            data={this.state.data[this.state.active]}
             handleClick={this._handleClick.bind(this)}
+            saveTitle={(title) => this._saveTitle(title)}
           />
         </div>
       </div>
