@@ -5,16 +5,11 @@ export default class Right extends Component {
   static propTypes = {
     handleClick: React.PropTypes.func.isRequired,
   };
-  renderContent() {
-    return Array.apply(this, new Array(300)).map(() => {
-      return 'article content'
-    }).join(' ')
-  }
   render () {
     return (
       <div className={styles.root}>
         <div className={styles.header}>
-          <h2>article title</h2>
+          <h2>{this.props.data.title || 'No Article'}</h2>
           <div className={styles.action}>
             <a
               className={styles.button}
@@ -26,7 +21,7 @@ export default class Right extends Component {
         </div>
         <div className={styles.content}>
           <article>
-          {this.renderContent()}
+          {this.props.data.content || 'No Content'}
           </article>
           <div className={styles.action}>
             <a

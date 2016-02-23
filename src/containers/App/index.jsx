@@ -31,6 +31,11 @@ class App extends Component {
       }, this)
     })
   }
+  _handleSelect(key) {
+    this.setState({
+      active: key
+    });
+  }
   _handleClick() {
     this.setState({ lightBoxShow: !this.state.lightBoxShow });
   }
@@ -48,10 +53,12 @@ class App extends Component {
         <div className={styles.wrapper}>
           <Left
             data={this.state.filtered}
+            selected={this.state.active}
             handleSearch={(value) => this._handleSearch(value)}
+            handleSelect={(value) => this._handleSelect(value)}
           />
           <Right
-            data={this.state.filtered[this.state.active]}
+            data={this.props.data[this.state.active]}
             handleClick={this._handleClick.bind(this)}
           />
         </div>

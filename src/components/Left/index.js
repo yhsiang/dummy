@@ -15,13 +15,21 @@ export default class Left extends Component {
     filter: ''
   };
   renderItems() {
-    console.log(this.props)
     // Spec 1
     return this.props.data.map(({title}, idx) => {
       return (
         <div
-          className={styles.item}
+          className={
+            do {
+              if (this.props.selected === idx) {
+                styles.active
+              } else {
+                styles.item
+              }
+            }
+          }
           key={idx}
+          onClick={(e) => this.props.handleSelect(idx)}
         >
           {title}
         </div>
