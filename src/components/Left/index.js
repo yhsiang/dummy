@@ -3,20 +3,17 @@ import styles from './styles.css';
 
 export default class Left extends Component {
   state = {
-    data: [
-      'article title 1',
-      'article title 2',
-      'article title 3',
-      'article title 4',
-      'article title 5',
-      'article title 6',
-      'article title 7'
-    ],
+    data: this.props.data,
     filter: ''
   };
+  _handleSearch(filter) {
+    this.setState({ filter });
+  }
   renderItems() {
-    // Spec 1
-    return this.props.data.map(({title}, idx) => {
+    return this.props.data.filter(({title}) => {
+      if (this.state.filter === '') return true;
+      return title.match(this.state.filter);
+    }, this).map(({title}, idx) => {
       return (
         <div
           className={
@@ -43,7 +40,7 @@ export default class Left extends Component {
         <div className={styles.search}>
           <input
             placeholder="search bar"
-            onChange={(e) => this.props.handleSearch(e.target.value)}
+            onChange={(e) => this._handleSearch(e.target.value)}
           />
         </div>
         <div className={styles.list}>

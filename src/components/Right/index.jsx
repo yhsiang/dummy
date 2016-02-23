@@ -7,7 +7,9 @@ export default class Right extends Component {
   };
   state = {
     editTitle: false,
+    editContent: false,
     title: this.props.data.title,
+    content: this.props.data.content,
   }
   _handleTitle(title) {
     this.setState({ title });
@@ -15,6 +17,14 @@ export default class Right extends Component {
   _editTitle() {
     this.setState({
       editTitle: !this.state.editTitle
+    });
+  }
+  _handleContent(content) {
+    this.setState({ content });
+  }
+  _editContent() {
+    this.setState({
+      editContent: !this.state.editContent
     });
   }
   render () {
@@ -59,23 +69,49 @@ export default class Right extends Component {
           }
         </div>
         <div className={styles.content}>
-          <article>
-          {this.props.data.content || 'No Content'}
-          </article>
-          <div className={styles.action}>
-            <a
-              className={styles.button}
-              onClick={() => this.props.handleClick()}
-            >
-              Edit
-            </a>
-            <a
-              className={styles.button}
-              onClick={() => this.props.handleClick()}
-            >
-              Delete
-            </a>
-          </div>
+          {
+            do {
+              if (this.state.editContent) {
+                <span>
+                  <textarea
+                    value={this.state.content}
+                    onChange={(e) => this._handleContent(e.target.value)}
+                  />
+                  <div className={styles.action}>
+                    <a
+                      className={styles.button}
+                      onClick={() => {
+                        this.props.saveContent(this.state.content);
+                        this._editContent();
+                      }}
+                    >
+                      Save
+                    </a>
+                  </div>
+                </span>
+              } else {
+                <span>
+                  <article>
+                  {this.props.data.content}
+                  </article>
+                  <div className={styles.action}>
+                    <a
+                      className={styles.button}
+                      onClick={() => this._editContent()}
+                    >
+                      Edit
+                    </a>
+                    <a
+                      className={styles.button}
+                      onClick={() => this.props.handleClick()}
+                    >
+                      Delete
+                    </a>
+                  </div>
+                </span>
+              }
+            }
+          }
         </div>
       </div>
     );

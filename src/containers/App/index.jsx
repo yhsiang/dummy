@@ -41,7 +41,6 @@ class App extends Component {
     this.setState({ lightBoxShow: !this.state.lightBoxShow });
   }
   _saveTitle(title) {
-    console.log(title)
     this.setState({
       data: this.state.data.map((d, idx)=> {
         if (idx === this.state.active) d.title = title;
@@ -49,20 +48,36 @@ class App extends Component {
       })
     });
   }
+  _saveContent(content) {
+    this.setState({
+      data: this.state.data.map((d, idx)=> {
+        if (idx === this.state.active) d.content = content;
+        return d;
+      })
+    });
+  }
+  _delete() {
+    this.setState({
+      data: this.state.data.filter((i, idx) => idx !== this.state.active)
+    });
+    this._handleClick();
+  }
   render () {
     return (
       <div className={styles.root}>
         { do {
             if (this.state.lightBoxShow) {
               <LightBox
-                handleClick={this._handleClick.bind(this)}
+                title={this.props.data[this.state.active].title}
+                handleDelete={() => this._delete()}
+                handleClick={() => this._handleClick()}
               />
             }
           }
         }
         <div className={styles.wrapper}>
           <Left
-            data={this.state.filtered}
+            data={this.state.data}
             selected={this.state.active}
             handleSearch={(value) => this._handleSearch(value)}
             handleSelect={(value) => this._handleSelect(value)}
@@ -71,6 +86,7 @@ class App extends Component {
             data={this.state.data[this.state.active]}
             handleClick={this._handleClick.bind(this)}
             saveTitle={(title) => this._saveTitle(title)}
+            saveContent={(content) => this._saveContent(content)}
           />
         </div>
       </div>

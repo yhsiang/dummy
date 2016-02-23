@@ -3,7 +3,6 @@ import styles from './styles.css';
 
 export default class LightBox extends Component {
   render () {
-    const title = '{article title} ?';
     return (
       <div className={styles.root}>
         Confirm LightBox
@@ -11,12 +10,12 @@ export default class LightBox extends Component {
           <div className={styles.msg}>
             <div className={styles.content}>
             Are you sure delete <br/>
-            {title}
+            {this.props.title}
             </div>
             <div className={styles.action}>
               <a
                 className={styles.button}
-                onClick={() => this.props.handleClick()}
+                onClick={() => this.props.handleDelete()}
               >
                 OK
               </a>
