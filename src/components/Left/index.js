@@ -2,26 +2,54 @@ import React, {Component} from 'react';
 import styles from './styles.css';
 
 export default class Left extends Component {
+  state = {
+    data: [
+      'article title 1',
+      'article title 2',
+      'article title 3',
+      'article title 4',
+      'article title 5',
+      'article title 6',
+      'article title 7'
+    ],
+    filter: ''
+  };
   renderItems() {
-    return Array.apply(this, new Array(7)).map((it, idx) => {
+    console.log(this.props)
+    // Spec 1
+    return this.props.data.map(({title}, idx) => {
       return (
         <div
           className={styles.item}
           key={idx}
         >
-          article title
+          {title}
         </div>
       );
     });
   }
   render () {
+    const items = this.renderItems();
     return (
       <div className={styles.root}>
         <div className={styles.search}>
-          <input placeholder="search bar" />
+          <input
+            placeholder="search bar"
+            onChange={(e) => this.props.handleSearch(e.target.value)}
+          />
         </div>
         <div className={styles.list}>
-          {this.renderItems()}
+          {
+            do {
+              if (items.length > 0) {
+                items
+              } else {
+                <div className={styles.item}>
+                  not found any article
+                </div>
+
+              }
+            }}
         </div>
       </div>
     );

@@ -7,9 +7,30 @@ import * as AppAction from 'actions';
 import styles from './styles.css';
 
 class App extends Component {
-  state = {
-    lightBoxShow: false
+  static defaultProps = {
+    data: [
+      { title: 'article title 1', content: 'content 1'},
+      { title: 'article title 2', content: 'content 2'},
+      { title: 'article title 3', content: 'content 3'},
+      { title: 'article title 4', content: 'content 4'},
+      { title: 'article title 5', content: 'content 5'},
+      { title: 'article title 6', content: 'content 6'},
+      { title: 'article title 7', content: 'content 7'},
+     ],
   };
+  state = {
+    lightBoxShow: false,
+    filtered: this.props.data,
+    active: 0,
+  };
+  _handleSearch(value) {
+    this.setState({
+      filtered: this.props.data.filter(function({title}) {
+        if (value === '') return true;
+        return title.match(value);
+      }, this)
+    })
+  }
   _handleClick() {
     this.setState({ lightBoxShow: !this.state.lightBoxShow });
   }
@@ -25,8 +46,12 @@ class App extends Component {
           }
         }
         <div className={styles.wrapper}>
-          <Left />
+          <Left
+            data={this.state.filtered}
+            handleSearch={(value) => this._handleSearch(value)}
+          />
           <Right
+            data={this.state.filtered[this.state.active]}
             handleClick={this._handleClick.bind(this)}
           />
         </div>
